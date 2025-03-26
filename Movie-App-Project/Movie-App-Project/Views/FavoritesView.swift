@@ -14,15 +14,17 @@ struct FavoritesView: View {
     @State var favoritedMovies: [Item] = []
     
     var body: some View {
-        VStack {
-            Text("Favorites")
-                .font(.system(size: 32, weight: .bold))
-                .padding()
-            MovieGridView(movies: .constant(favoritedMovies))
-        }
-        .onAppear() {
-            favoritedMovies = favorites.getFavorites().map { movieName in
-                 Item(name: movieName)
+        NavigationStack {
+            VStack {
+                Text("Favorites")
+                    .font(.system(size: 32, weight: .bold))
+                    .padding()
+                MovieGridView(movies: .constant(favoritedMovies))
+            }
+            .onAppear() {
+                favoritedMovies = favorites.getFavorites().map { movieName in
+                    Item(name: movieName)
+                }
             }
         }
     }

@@ -15,31 +15,32 @@ struct MovieSearchView: View {
     @StateObject var TasteDiveVM: ViewModel<movieNames> = .init()
     
     var body: some View {
-        VStack {
-            Text("Search By Title")
-                .font(.system(size: 24, weight: .bold))
-            TextField("Search", text: $searchText)
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color.black, lineWidth: 2)
-                )
-                .padding()
-                .onSubmit {
-                    Task {
-                        await TasteDiveVM.fetch(tasteDiveURL(searchText))
+        NavigationStack {
+            VStack {
+                Text("Search By Title")
+                    .font(.system(size: 24, weight: .bold))
+                TextField("Search", text: $searchText)
+                    .padding()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.black, lineWidth: 2)
+                    )
+                    .padding()
+                    .onSubmit {
+                        Task {
+                            await TasteDiveVM.fetch(tasteDiveURL(searchText))
+                        }
                     }
-                }
                 
-            if let data = TasteDiveVM.data {
-                MovieGridView(movies: .constant(data.movies))
+                if let data = TasteDiveVM.data {
+                    MovieGridView(movies: .constant(data.movies))
+                }
+                Spacer()
             }
-            Spacer()
+            .task {
+                await TasteDiveVM.fetch(tasteDiveURL(searchText))
+            }
         }
-        .task {
-            await TasteDiveVM.fetch(tasteDiveURL(searchText))
-        }
-        
         
     }
     
