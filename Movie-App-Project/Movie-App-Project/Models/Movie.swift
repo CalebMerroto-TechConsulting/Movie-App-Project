@@ -30,10 +30,10 @@ struct Movie: Decodable {
         return total / Ratings.count
     }
 }
-struct RatingSource: Decodable {
+struct RatingSource: Decodable, Identifiable {
     let Source: String
     let Value: String
-    
+    var id: String { Source }
     var value: Int {
         switch Source.lowercased() {
         case "internet movie database":
