@@ -12,6 +12,7 @@ struct Movie_App_ProjectApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(FavoritesManager.shared)
         }
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>tasteDiveAPIKey</key>
+    <string>1048258-CalebMMe-5F4421A2</string>
+    <key>omdbAPIKey</key>
+    <string>aef8b2b6</string>
+</dict>
+</plist>
