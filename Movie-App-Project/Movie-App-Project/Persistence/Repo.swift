@@ -71,7 +71,7 @@ class Repo: RepoProtocol {
     
     private func getCacheFileURL() -> URL {
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        print(directory.appendingPathComponent(cacheFileName))
+//        print(directory.appendingPathComponent(cacheFileName))
         return directory.appendingPathComponent(cacheFileName)
     }
 }

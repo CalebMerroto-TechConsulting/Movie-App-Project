@@ -5,51 +5,78 @@
 //  Created by Caleb Merroto on 3/26/25.
 //
 
-
-
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 class FavoritesManager: ObservableObject {
     static let shared = FavoritesManager()
-    private let favoritesKey = "favorites"
-    private var newFaves: [String] = []
-    private init() {}
     
-    // Retrieve the list of favorited movie titles.
-    func getFavorites() -> [String] {
-        var allFaves:[String] = []
-        for movie in (UserDefaults.standard.stringArray(forKey: favoritesKey) ?? []) + newFaves {
-            if !allFaves.contains(movie) {
-                allFaves.append(movie)
+    @Published private(set) var favorites: [String] = []
+    
+    private let db = Firestore.firestore()
+    
+    // Remove the call from init—load favorites after sign in.
+    private init() { }
+    
+    /// Call this function after a user signs in to load their favorites.
+    func loadFavorites() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("No user logged in – cannot load favorites.")
+            self.favorites = []
+            return
+        }
+        let docRef = db.collection("users").document(uid)
+        docRef.getDocument { snapshot, error in
+            if let error = error {
+                print("Error loading favorites: \(error.localizedDescription)")
+                return
+            }
+            if let data = snapshot?.data(), let favs = data["favorites"] as? [String] {
+                DispatchQueue.main.async {
+                    self.favorites = favs
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.favorites = []
+                }
             }
         }
-        return allFaves
     }
     
-    // Check if a given movie title is favorited.
+    func getFavorites() -> [String] {
+        favorites
+    }
+    
     func isFavorite(_ movieTitle: String) -> Bool {
-        getFavorites().contains(movieTitle) || newFaves.contains(movieTitle)
+        favorites.contains(movieTitle)
     }
     
-    // Add a movie title to the favorites list.
     func addFavorite(_ movieTitle: String) {
-        var favorites = getFavorites()
-        if !favorites.contains(movieTitle) {
-            favorites.append(movieTitle)
-            UserDefaults.standard.set(favorites, forKey: favoritesKey)
-        }
-        newFaves.append(movieTitle)
+        guard !favorites.contains(movieTitle) else { return }
+        favorites.append(movieTitle)
+        updateFirestore()
     }
     
-    // Remove a movie title from the favorites list.
     func removeFavorite(_ movieTitle: String) {
-        var favorites = getFavorites()
         if let index = favorites.firstIndex(of: movieTitle) {
             favorites.remove(at: index)
-            UserDefaults.standard.set(favorites, forKey: favoritesKey)
+            updateFirestore()
         }
-        if let index = newFaves.firstIndex(of: movieTitle) {
-            newFaves.remove(at: index)
+    }
+    
+    private func updateFirestore() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("No user logged in – cannot update favorites.")
+            return
+        }
+        let docRef = db.collection("users").document(uid)
+        docRef.setData(["favorites": favorites], merge: true) { error in
+            if let error = error {
+                print("Error updating favorites: \(error.localizedDescription)")
+            } else {
+                print("Favorites updated successfully.")
+            }
         }
     }
 }
