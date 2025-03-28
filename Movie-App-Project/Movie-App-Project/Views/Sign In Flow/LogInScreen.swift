@@ -59,9 +59,6 @@ struct LogInScreen: UIViewRepresentable {
         passwordInput.heightAnchor.constraint(equalToConstant: 40).isActive = true
         stackView.addArrangedSubview(passwordInput)
         
-        context.coordinator.usernameInput = usernameInput
-        context.coordinator.passwordInput = passwordInput
-        
         // Sign In button.
         let signInButton = UIButton()
         signInButton.setTitle("Sign In", for: .normal)
@@ -93,6 +90,19 @@ struct LogInScreen: UIViewRepresentable {
         signUpButton.backgroundColor = .white
         signUpButton.addTarget(context.coordinator, action: #selector(Coordinator.handleSignUp), for: .touchUpInside)
         hStackView.addArrangedSubview(signUpButton)
+        
+        // Error label.
+        let errorLabel = UILabel()
+        errorLabel.text = ""
+        errorLabel.font = UIFont.systemFont(ofSize: 20)
+        errorLabel.textColor = .systemRed
+        errorLabel.numberOfLines = 10
+        errorLabel.textAlignment = .center
+        stackView.addArrangedSubview(errorLabel)
+        
+        context.coordinator.usernameInput = usernameInput
+        context.coordinator.passwordInput = passwordInput
+        context.coordinator.errorLabel = errorLabel
         
         NSLayoutConstraint.activate([
             // Pin the stack view to the safe area's top, and constrain its horizontal edges.
@@ -128,6 +138,7 @@ struct LogInScreen: UIViewRepresentable {
         
         weak var usernameInput: UITextField?
         weak var passwordInput: UITextField?
+        weak var errorLabel: UILabel?
         
         init(onSignIn: @escaping () -> Void, onForgotPassword: @escaping () -> Void,
              onSignUp: @escaping () -> Void) {
@@ -150,8 +161,15 @@ struct LogInScreen: UIViewRepresentable {
                         case .success(let user):
                             self.onSignIn()
                             print("Sign In Success: \(user.uid)")
+                            if let err = self.errorLabel {
+                                err.text = ""
+                            }
                         case .failure(let error):
                             print("Sign In Error: \(error.localizedDescription)")
+                            if let err = self.errorLabel {
+                                err.text = "Sign In Error: \(error.localizedDescription)"
+                                
+                            }
                         }
                     }
                 }
