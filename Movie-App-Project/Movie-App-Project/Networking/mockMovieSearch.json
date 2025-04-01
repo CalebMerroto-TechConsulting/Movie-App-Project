@@ -1,0 +1,80 @@
+{
+  "similar": {
+    "info": [
+      {
+        "name": "The Avengers",
+        "type": "movie"
+      },
+      {
+        "name": "The Avengers",
+        "type": "movie"
+      },
+      {
+        "name": "Avengers: Endgame",
+        "type": "movie"
+      }
+    ],
+    "results": [
+      {
+        "name": "Captain America: The First Avenger"
+      },
+      {
+        "name": "Iron Man"
+      },
+      {
+        "name": "The Incredible Hulk"
+      },
+      {
+        "name": "Thor"
+      },
+      {
+        "name": "Iron Man 3"
+      },
+      {
+        "name": "Captain America: The Winter Soldier"
+      },
+      {
+        "name": "Hulk"
+      },
+      {
+        "name": "Avengers: Age of Ultron"
+      },
+      {
+        "name": "Avengers: Infinity War"
+      },
+      {
+        "name": "Thor: The Dark World"
+      },
+      {
+        "name": "Captain Marvel"
+      },
+      {
+        "name": "Fantastic Four"
+      },
+      {
+        "name": "Spider-Man"
+      },
+      {
+        "name": "Guardians of the Galaxy"
+      },
+      {
+        "name": "X-Men"
+      },
+      {
+        "name": "Fantastic Four: Rise of the Silver Surfer"
+      },
+      {
+        "name": "Spider-Man 3"
+      },
+      {
+        "name": "X-Men: The Last Stand"
+      },
+      {
+        "name": "X-Men Origins: Wolverine"
+      },
+      {
+        "name": "The Amazing Spider-Man"
+      }
+    ]
+  }
+}

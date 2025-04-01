@@ -35,28 +35,20 @@ struct RatingSource: Decodable, Identifiable {
     let Value: String
     var id: String { Source }
     var value: Int {
-        switch Source.lowercased() {
-        case "internet movie database":
-            // Example: "7.0/10"
+        if Value.contains("/") {
+            // For ratings like "7.0/10" or "57/100"
             let components = Value.split(separator: "/")
             if let scoreStr = components.first, let score = Double(scoreStr) {
                 return Int(score.rounded())
             }
-        case "rotten tomatoes":
-            // Example: "77%"
+        } else {
+            // For ratings like "77%"
             let percentStr = Value.replacingOccurrences(of: "%", with: "")
             if let percent = Double(percentStr) {
                 return Int((percent / 10).rounded())
             }
-        case "metacritic":
-            // Example: "57/100"
-            let components = Value.split(separator: "/")
-            if let scoreStr = components.first, let score = Double(scoreStr) {
-                return Int((score / 10).rounded())
-            }
-        default:
-            return 0
         }
         return 0
     }
+    
 }

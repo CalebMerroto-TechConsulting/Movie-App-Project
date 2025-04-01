@@ -5,33 +5,25 @@
 //  Created by Caleb Merroto on 3/26/25.
 //
 
-
-
 import Foundation
 
 struct APIKeys {
-    static var tasteDive: String {
+    // Load and cache keys from APIKeys.plist only once.
+    private static let keys: [String: String] = {
         guard let url = Bundle.main.url(forResource: "APIKeys", withExtension: "plist"),
               let data = try? Data(contentsOf: url),
-              let keys = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
-              let key = keys["tasteDiveAPIKey"] as? String else {
-            fatalError("Could not load TasteDive API key from APIKeys.plist")
+              let keys = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: String] else {
+            fatalError("Could not load APIKeys.plist")
         }
-        return key
-    }
+        return keys
+    }()
     
-    static var omdb: String {
-        guard let url = Bundle.main.url(forResource: "APIKeys", withExtension: "plist"),
-              let data = try? Data(contentsOf: url),
-              let keys = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any],
-              let key = keys["omdbAPIKey"] as? String else {
-            fatalError("Could not load OMDB API key from APIKeys.plist")
-        }
-        return key
-    }
+    static var tasteDive: String { keys["tasteDiveAPIKey"]! }
+    
+    static var omdb: String { keys["omdbAPIKey"]! }
 }
 
-func tasteDiveURL(_ query: String,_ limit: Int = 20) -> String {
+func tasteDiveURL(_ query: String, _ limit: Int = 20) -> String {
     let apiKey = APIKeys.tasteDive
     let baseURL = "https://tastedive.com/api/similar?q=movie:"
     let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query

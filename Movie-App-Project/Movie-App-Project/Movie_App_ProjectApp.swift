@@ -27,8 +27,8 @@ struct Movie_App_ProjectApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LogInScreen()
-                .environmentObject(FavoritesManager.shared)
+            ContentView()
+                .environmentObject(ProfileManager.shared)
         }
     }
 }

@@ -10,9 +10,9 @@
 import SwiftUI
 
 struct MovieSearchView: View {
-    @State var searchText: String = ""
+    @State var searchText: String = "Thor"
     @State var isLoading: Bool = false
-    @StateObject var TasteDiveVM: ViewModel<movieNames> = .init()
+    @StateObject var TasteDiveVM = ViewModel<MovieNames>()
     
     var body: some View {
         VStack {
@@ -32,7 +32,7 @@ struct MovieSearchView: View {
                 }
             
             if let data = TasteDiveVM.data {
-                MovieGridView(movies: .constant(data.movies))
+                MovieGridView(movies: data.movies)
             }
             Spacer()
         }
@@ -46,5 +46,5 @@ struct MovieSearchView: View {
 
 #Preview {
     MovieSearchView()
-        .environmentObject(FavoritesManager.shared)
+        .environmentObject(ProfileManager.shared)
 }

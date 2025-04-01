@@ -10,12 +10,15 @@
 import SwiftUI
 
 struct MovieGridView: View {
-    @Binding var movies: [Item]
+    var movies: [Item]
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(movies) { movie in
                     MovieIcon(url: OMDBURL(movie.name), iconWidth: 150)
+                        .onAppear() {
+                            print(OMDBURL(movie.name))
+                        }
                 }
             }
             .padding()
@@ -46,6 +49,6 @@ struct MovieGridView: View {
         Item(name: "X-Men Origins: Wolverine"),
         Item(name: "The Amazing Spider-Man")
     ]
-    MovieGridView(movies: .constant(movies))
-        .environmentObject(FavoritesManager.shared)
+    MovieGridView(movies: movies)
+        .environmentObject(ProfileManager.shared)
 }

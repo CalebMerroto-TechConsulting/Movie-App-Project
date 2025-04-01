@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MovieIcon: View {
-    @EnvironmentObject var favorites: FavoritesManager
+    @EnvironmentObject var user: ProfileManager
     @StateObject var vm = ViewModel<Movie>()
     @State var url: String
     var iconWidth: CGFloat = 170
@@ -18,14 +18,19 @@ struct MovieIcon: View {
         VStack {
             if let movie = vm.data {
                 ZStack {
-                    // NavigationLink covers entire area
+                    // Invisible NavigationLink covering the whole cell.
                     NavigationLink(destination: MovieInfoView(url: url)) {
-                        VStack {
-                            MoviePoster(url: movie.Poster, width: iconWidth, aspectRatio: (2, 3))
-                            StarRatingView(movie.starRating)
-                        }
-                        .contentShape(Rectangle()) // Ensure entire area is tappable
+                        EmptyView()
                     }
+                    .buttonStyle(PlainButtonStyle())
+                    .frame(width: iconWidth, height: iconWidth + iconWidth * (2/3))
+                    .opacity(0)
+
+                    VStack {
+                        MoviePoster(url: movie.Poster, width: iconWidth, aspectRatio: (2, 3))
+                        StarRatingView(movie.starRating)
+                    }
+                    .contentShape(Rectangle())
                     .background(.black)
                     .cornerRadius(15)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -33,93 +38,66 @@ struct MovieIcon: View {
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(.black, lineWidth: 2)
                     )
-                    
+
+                    // Favorite button overlay.
                     VStack {
                         HStack {
                             Spacer()
-                            Button {
-                                if isFavorite {
-                                    favorites.removeFavorite(movie.Title)
-                                } else {
-                                    favorites.addFavorite(movie.Title)
-                                }
-                                isFavorite = favorites.isFavorite(movie.Title)
-                            } label: {
-                                Image(systemName: isFavorite ? "heart.fill" : "heart")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(.red)
-                                    .padding(10)
-                                    .background(Color.white.opacity(0.4))
-                                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                            FavoriteButton(user: user, title: movie.Title, isFavorite: $isFavorite)
                         }
                         Spacer()
                     }
                     .frame(width: iconWidth, height: iconWidth + iconWidth * (2/3))
                 }
-                VStack {
-                    Text(movie.Title)
-                        .font(.system(size: 15, weight: .bold))
-                        .frame(width: iconWidth, height: 44, alignment: .center)
-                        .lineLimit(2)
-                    Spacer()
-                }
-                .frame(width: iconWidth, height: 44, alignment: .center)
+                Text(movie.Title)
+                    .font(.system(size: 15, weight: .bold))
+                    .frame(width: iconWidth, height: 44, alignment: .center)
+                    .lineLimit(2)
             } else if let err = vm.error {
-                Text(err.msg)
-                    .foregroundColor(.red)
-                    .frame(width: iconWidth, height: iconWidth + iconWidth * (2/3))
-                    .cornerRadius(15)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.red, lineWidth: 2)
-                    )
-                
+                // Error view.
                 VStack {
-                    Text("ERROR")
+                    Text(err.message)
                         .foregroundColor(.red)
-                        .font(.headline)
-                        .frame(width: iconWidth, height: 44, alignment: .center)
-                        .lineLimit(2)
-                    Spacer()
                 }
-                .frame(width: iconWidth, height: 44, alignment: .center)
+                .frame(width: iconWidth, height: iconWidth + iconWidth * (2/3))
+                .background(Color.red.opacity(0.2))
+                .cornerRadius(15)
+                Text("ERROR")
+                    .font(.system(size: 15, weight: .bold))
+                    .frame(width: iconWidth, height: 44, alignment: .center)
+                    .lineLimit(2)
             } else {
-                // Placeholder content
+                // Placeholder view.
                 VStack {
                     MoviePoster(url:"", width: iconWidth, aspectRatio: (2, 3))
                     StarRatingView(0)
                 }
                 .background(Color.black)
                 .cornerRadius(15)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
                 .overlay(
                     RoundedRectangle(cornerRadius: 15)
                         .stroke(Color.black, lineWidth: 2)
                 )
-                
                 Text("Movie Title")
-                    .font(.headline)
+                    .font(.system(size: 15, weight: .bold))
+                    .frame(width: iconWidth, height: 44, alignment: .center)
+                    .lineLimit(2)
             }
         }
         .task {
             await vm.fetch(url)
-            isFavorite = favorites.isFavorite(vm.data?.Title ?? "")
+            isFavorite = user.favorites.contains(vm.data?.Title ?? "")
         }
     }
 }
 
 #Preview {
-    let url = "https://www.omdbapi.com/?t=Avengers%20Age%20of%20Ultron&apikey=aef8b2b6"
+    let url = OMDBURL("Iron Man")
     let errurl = "https://www.omdbapi.com/?t=Tr8&apikey=aef8b2b6"
     
     HStack {
         MovieIcon(url: url)
         MovieIcon(url: errurl)
     }
-    .environmentObject(FavoritesManager.shared)
+    .environmentObject(ProfileManager.shared)
 }

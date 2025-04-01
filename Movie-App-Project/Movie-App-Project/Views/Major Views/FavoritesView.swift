@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @EnvironmentObject var favorites: FavoritesManager
+    @EnvironmentObject var favorites: ProfileManager
     @State var favoritedMovies: [Item] = []
     
     var body: some View {
@@ -16,10 +16,10 @@ struct FavoritesView: View {
             Text("Favorites")
                 .font(.system(size: 32, weight: .bold))
                 .padding()
-            MovieGridView(movies: .constant(favoritedMovies))
+            MovieGridView(movies: favoritedMovies)
         }
         .onAppear {
-            favoritedMovies = favorites.getFavorites().map { movieName in
+            favoritedMovies = favorites.favorites.map { movieName in
                 Item(name: movieName)
             }
         }
@@ -28,5 +28,5 @@ struct FavoritesView: View {
 
 #Preview {
     FavoritesView()
-        .environmentObject(FavoritesManager.shared)
+        .environmentObject(ProfileManager.shared)
 }

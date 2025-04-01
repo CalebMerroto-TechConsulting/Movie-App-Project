@@ -1,40 +1,31 @@
-//
-//  NetworkService.swift
-//  Movie-App-Project
-//
-//  Created by Caleb Merroto on 3/26/25.
-//
-
-
-
 import Foundation
 
 protocol NetworkService {
     func get(url: String) async throws -> Data?
 }
 
-enum APIError: Error {
-    case InvalidURL(msg: String)
-    case NetworkError(msg: String)
-    case NoData
-    case Unknown(msg: String)
-    case decodingError(msg: String)
-    case RequestError(msg: String)
+enum APIError: Error, LocalizedError {
+    case invalidURL(message: String)
+    case networkError(message: String)
+    case noData
+    case unknown(message: String)
+    case decodingError(message: String)
+    case requestError(message: String)
     
-    var msg: String {
+    var message: String {
         switch self {
-            case .InvalidURL(let msg):
-                return msg
-            case .NetworkError(let msg):
-                return msg
-            case .decodingError(let msg):
-                return msg
-            case .RequestError(let msg):
-                return msg
-            case .NoData:
-                return "No Data"
-            case .Unknown(msg: let msg):
-                return msg
+        case .invalidURL(let message),
+             .networkError(let message),
+             .decodingError(let message),
+             .requestError(let message),
+             .unknown(let message):
+            return message
+        case .noData:
+            return "No Data"
         }
+    }
+    
+    var errorDescription: String? {
+        return message
     }
 }

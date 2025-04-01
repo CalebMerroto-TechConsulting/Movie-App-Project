@@ -6,7 +6,7 @@
 //
 
 
-struct movieNames: Decodable {
+struct MovieNames: Decodable {
     struct searchResult: Decodable {
         let info: [Item]
         let results: [Item]

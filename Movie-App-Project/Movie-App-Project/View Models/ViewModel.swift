@@ -26,9 +26,9 @@ class ViewModel<T: Decodable>: VMProtocol {
             self.error = nil
         } catch {
             self.data = nil
-            self.error = APIError.RequestError(msg: error.localizedDescription)
+            self.error = error as? APIError ?? APIError.requestError(message: error.localizedDescription)
         }
-//        print(err?.msg ?? "Succeeded")
+//        print(error?.message ?? "Succeeded")
 //        print(data ?? "none")
     }
 }

@@ -13,37 +13,39 @@ struct ForgotPasswordView: View {
     var onBack: () -> Void
 
     var body: some View {
-        HStack {
-            Button(action: {
-                onBack()
-            }) {
-                Text("< Back")
-                    .foregroundStyle(.blue)
-                    .padding()
+        VStack {
+            HStack {
+                Button(action: {
+                    onBack()
+                }) {
+                    Text("< Back")
+                        .foregroundStyle(.blue)
+                        .padding()
+                }
+                Spacer()
             }
-            Spacer()
-        }
-        VStack(spacing: 24) {
-            Text("Reset Password")
-                .font(.largeTitle).bold()
+            VStack(spacing: 24) {
+                Text("Reset Password")
+                    .font(.largeTitle).bold()
 
-            TextField("email", text: $email)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("email", text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
 
-            Button(action: {
-                AuthManager.shared.resetPassword(email: email)
-            }) {
-                Text("Send Password Reset Email")
-                    .frame(maxWidth: 375)
-                    .padding(.vertical, 12)
-                    .background(Color.blue)
-                    .cornerRadius(7)
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
+                Button(action: {
+                    AuthManager.shared.resetPassword(email: email)
+                }) {
+                    Text("Send Password Reset Email")
+                        .frame(maxWidth: 375)
+                        .padding(.vertical, 12)
+                        .background(Color.blue)
+                        .cornerRadius(7)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                }
+                Spacer()
             }
-            Spacer()
+            .padding()
         }
-        .padding()
     }
 }
 

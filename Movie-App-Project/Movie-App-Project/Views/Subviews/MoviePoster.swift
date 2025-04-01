@@ -4,7 +4,7 @@
 //
 //  Created by Caleb Merroto on 3/26/25.
 //
-
+// movieGridView is crashing whenever it is given more than one movie to load, the crash occurs immediately, and does not wait for any UI events.
 
 
 import SwiftUI
@@ -15,6 +15,7 @@ struct MoviePoster: View {
     @State var aspectRatio: (CGFloat, CGFloat) // reduced fraction for aspect ratio
     @StateObject var vm = ImageVM()
     @State var isLoading = false
+    @State var err = false
     
     var placeholder: UIImage {
             let height = width * (aspectRatio.1 / aspectRatio.0)
@@ -44,7 +45,9 @@ struct MoviePoster: View {
             .frame(width: width)
             .task {
                 isLoading = true
-                await vm.fetch(url)
+                if url != "" {
+                    await vm.fetch(url)
+                }
                 isLoading = false
             }
         }

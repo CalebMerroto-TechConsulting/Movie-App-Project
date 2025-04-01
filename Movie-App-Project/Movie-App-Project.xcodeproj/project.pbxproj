@@ -15,6 +15,7 @@
 		A2C323AA2D95966200E9907C /* Accessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2C323A82D95966200E9907C /* Accessibility.framework */; };
 		A2C323AB2D95966200E9907C /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2C323A92D95966200E9907C /* AuthenticationServices.framework */; };
 		A2C323FF2D9602B300E9907C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A2C323FE2D9602B300E9907C /* FirebaseFirestore */; };
+		A2C3245C2D9702FB00E9907C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A2C3245B2D9702FB00E9907C /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 			files = (
 				A2C323AB2D95966200E9907C /* AuthenticationServices.framework in Frameworks */,
 				A2C323A52D95966100E9907C /* FirebaseDatabase in Frameworks */,
+				A2C3245C2D9702FB00E9907C /* FirebaseStorage in Frameworks */,
 				A2C3239D2D95966100E9907C /* FirebaseAnalytics in Frameworks */,
 				A2C323A32D95966100E9907C /* FirebaseCrashlytics in Frameworks */,
 				A2C323A12D95966100E9907C /* FirebaseCore in Frameworks */,
@@ -149,6 +151,7 @@
 				A2C323A22D95966100E9907C /* FirebaseCrashlytics */,
 				A2C323A42D95966100E9907C /* FirebaseDatabase */,
 				A2C323FE2D9602B300E9907C /* FirebaseFirestore */,
+				A2C3245B2D9702FB00E9907C /* FirebaseStorage */,
 			);
 			productName = "Movie-App-Project";
 			productReference = A2E71D662D948FB000A7FE64 /* Movie-App-Project.app */;
@@ -636,6 +639,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A2C3239A2D9595E800E9907C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		A2C3245B2D9702FB00E9907C /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2C3239A2D9595E800E9907C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
