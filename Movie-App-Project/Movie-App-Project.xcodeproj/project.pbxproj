@@ -36,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A2AEC4122D9C3C5000EAB742 /* Movie-App-Project.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Movie-App-Project.xctestplan"; sourceTree = "<group>"; };
 		A2C323A82D95966200E9907C /* Accessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accessibility.framework; path = System/Library/Frameworks/Accessibility.framework; sourceTree = SDKROOT; };
 		A2C323A92D95966200E9907C /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		A2E71D662D948FB000A7FE64 /* Movie-App-Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Movie-App-Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +108,7 @@
 		A2E71D5D2D948FB000A7FE64 = {
 			isa = PBXGroup;
 			children = (
+				A2AEC4122D9C3C5000EAB742 /* Movie-App-Project.xctestplan */,
 				A2E71D682D948FB000A7FE64 /* Movie-App-Project */,
 				A2E71D792D948FB200A7FE64 /* Movie-App-ProjectTests */,
 				A2E71D832D948FB200A7FE64 /* Movie-App-ProjectUITests */,

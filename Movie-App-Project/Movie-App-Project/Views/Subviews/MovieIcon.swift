@@ -13,19 +13,13 @@ struct MovieIcon: View {
     @State var url: String
     var iconWidth: CGFloat = 170
     @State var isFavorite: Bool = false
+    @State var showInfo: Bool = false
 
     var body: some View {
         VStack {
             if let movie = vm.data {
                 ZStack {
                     // Invisible NavigationLink covering the whole cell.
-                    NavigationLink(destination: MovieInfoView(url: url)) {
-                        EmptyView()
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .frame(width: iconWidth, height: iconWidth + iconWidth * (2/3))
-                    .opacity(0)
-
                     VStack {
                         MoviePoster(url: movie.Poster, width: iconWidth, aspectRatio: (2, 3))
                         StarRatingView(movie.starRating)
@@ -38,6 +32,15 @@ struct MovieIcon: View {
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(.black, lineWidth: 2)
                     )
+                    .onTapGesture(perform: {
+                        showInfo = true
+                    })
+                    .navigationDestination(isPresented: $showInfo) {
+                        MovieInfoView(url: url)
+                    
+                    }
+
+                    
 
                     // Favorite button overlay.
                     VStack {
@@ -94,10 +97,11 @@ struct MovieIcon: View {
 #Preview {
     let url = OMDBURL("Iron Man")
     let errurl = "https://www.omdbapi.com/?t=Tr8&apikey=aef8b2b6"
-    
-    HStack {
-        MovieIcon(url: url)
-        MovieIcon(url: errurl)
+    NavigationStack{
+        HStack {
+            MovieIcon(url: url)
+            MovieIcon(url: errurl)
+        }
     }
     .environmentObject(ProfileManager.shared)
 }

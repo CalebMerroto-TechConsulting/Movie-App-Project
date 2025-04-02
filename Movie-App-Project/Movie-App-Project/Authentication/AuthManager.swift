@@ -8,16 +8,11 @@
 import FirebaseAuth
 import FirebaseAnalytics
 
-protocol AuthService {
-    func signIn(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void)
-    func signOut() throws
-    func signUp(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void)
-    func resetPassword(email: String, completion: @escaping (Error?) -> Void)
-}
 
 class AuthManager: AuthService {
     private init() {}
     static let shared = AuthManager()
+    var currentUser: User? { Auth.auth().currentUser }
     
     func signIn(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in

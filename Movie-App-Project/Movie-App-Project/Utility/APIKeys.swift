@@ -4,7 +4,7 @@
 //
 //  Created by Caleb Merroto on 3/26/25.
 //
-
+    
 import Foundation
 
 struct APIKeys {
@@ -36,3 +36,5 @@ func OMDBURL(_ title: String) -> String {
     let encodedTitle = title.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? title
     return "\(baseURL)?apikey=\(apiKey)&t=\(encodedTitle)"
 }
+
+
